@@ -16,7 +16,7 @@ export default new Router({
       path: '/main', name: 'Navbar', component: Navbar, children: [        
         { path: '/', redirect: 'dashboard' },
         { path: 'dashboard', name: 'Dashboard', component: Dashboard },
-        { path: 'finances/save', name: 'CreateFinance', component: CreateFinance }        
+        { path: 'finances/save/:type', name: 'CreateFinance', component: CreateFinance , props: true}        
       ]
     }
     /*{ path: '**', redirect: '/login' }*/
