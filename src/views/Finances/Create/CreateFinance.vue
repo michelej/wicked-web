@@ -1,7 +1,7 @@
 <template src="./CreateFinance.html"></template>
 <script>
 import Datepicker from "vuejs-datepicker";
-import api from "../../services/backend";
+import api from "../../../services/backend";
 import { es } from "vuejs-datepicker/dist/locale";
 export default {
   name: "CreateFinance",
