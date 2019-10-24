@@ -1,0 +1,70 @@
+<div class="container-fluid" style="position:absolute;margin: 0;padding: 0;top:0">    
+
+    
+    <div style="padding:0;margin:0;width:100%;height:80px">
+        <div class="left-bar"></div>
+        <div class="right-bar"></div>
+        <div style="width:240px;text-align:center;float:left;background:transparent;">
+            </div>
+    </div>
+
+    <div class="row holder" style="width:100%;">
+        <div class="login-box">
+            <div class="login-logo">                
+                <h3>Wicked Web</h3>
+            </div>
+            <div class="login-box-body">
+                <div class="col-12">
+                    <br>
+                    <div class="form-group mt-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <i class="input-group-text fa fa-user"></i>
+                            </div>
+
+                            <input name="username" id="username" placeholder="Usuario" type="text" class="form-control"
+                                v-model="username" @change="errors.user=false;errors.wrongCredentials=false" v-bind:class="{ 'err-input': (!userValid() && errors.user) }">
+                            <small v-if="!userValid() && errors.user" class="err-msg col-12">Introduce su usuario</small>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <i class="input-group-text fa fa-key"></i>
+                            </div>
+                            <input name="password" id="password" placeholder="Contraseña" :type="passIsVisible?'text':'password'"
+                                class="form-control" v-model="password" @change="errors.password=false;errors.wrongCredentials=false" v-bind:class="{ 'err-input': (!passValid() && errors.password) }"
+                                @keyup.enter="login()">
+                            <small v-if="(!passValid() && errors.password)" class="err-msg col-12">Introduce su
+                                contraseña</small>
+                        </div>
+                    </div>
+                    <div class="mt-4" v-if="errors.wrongCredentials">
+                        <div class="alert alert-danger page-alert alert-dismissible">
+                            <small class="err-msg col-10"><i class="fa fa-exclamation-circle"></i> Usuario o contraseña incorrectos</small>
+                        </div>
+                    </div>
+                    <div class="text-center login-btn mt-5">
+                        <button type="button" @click="login()" class="btn btn-success col-12" title="Entrar">
+                            <span v-if="!loading">Iniciar Sesión</span>
+                            <i v-if="loading" class="fas fa-spinner fa-pulse"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="width:100%;">
+        <div class="col-12 text-center footer-text">
+            <span><strong>Wicked</strong></span>
+            <br>
+            <span class="copy">&copy;<label> Michel Escobar S.L.U. {{new Date().getFullYear()}}</label></span>
+        </div>
+    </div>
+    <div class="bottom-bar fixed-bottom"></div>
+</div>

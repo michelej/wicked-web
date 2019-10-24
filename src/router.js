@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Dashboard from './views/Dashboard/Dashboard.vue'
 import CreateFinance from './views/Finances/Create/CreateFinance.vue'
 import ListFinance from './views/Finances/List/ListFinance.vue'
+import Login from './views/Login/Login.vue'
 import Navbar from './views/Navbar/Navbar.vue'
 
 Vue.use(Router)
@@ -12,7 +13,8 @@ export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    { path: '/', redirect: '/main' },    
+    { path: '/', redirect: '/login' },
+    { path: '/login', name: 'login', component: Login },
     {
       path: '/main', name: 'Navbar', component: Navbar, children: [        
         { path: '/', redirect: 'dashboard' },
