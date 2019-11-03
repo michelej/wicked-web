@@ -1,6 +1,7 @@
 <template src="./Login.html"></template>
 <script>
-import api from "../../services/backend";
+//import api from "../../services/backend";
+import auth from "../../services/auth";
 export default {
   name: "login",
   data: function() {
@@ -12,6 +13,9 @@ export default {
       loading: false
     };
   },
+  mounted() {
+    auth.logout()
+  },
   methods: {
     userValid: function() {
       return this.username.trim().length > 0;
@@ -22,12 +26,9 @@ export default {
     login: function() {
       this.loading = true;
       if (this.userValid() && this.passValid()) {
-        api
-          .login(this.username, this.password)
-          .then(() => {
+        auth.login(this.username, this.password).then(() => {            
             this.$router.push("/main/dashboard");
-          })
-          .catch(error => {
+          }).catch(error => {
             console.error(error);
             this.loading = false;
             this.errors.wrongCredentials = true;

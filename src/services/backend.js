@@ -1,21 +1,17 @@
 import axios from 'axios'
+import auth from './auth'
 
 export class BackedService {
 
     async saveNewAmountMoney(doc){
-        return await axios.post( process.env.VUE_APP_API_URL+'/wicked/api/v1/money/save', doc)        
+        return await axios.post( process.env.VUE_APP_API_URL+'/wicked/api/v1/money/save', doc,auth.getAuthToken())        
     }
 
     async searchMoneyRecords(params){
-        return await axios.post( process.env.VUE_APP_API_URL+'/wicked/api/v1/money/list', params)        
+        return await axios.post( process.env.VUE_APP_API_URL+'/wicked/api/v1/money/list', params ,auth.getAuthToken())        
     }
 
-    async login(user,pass){
-        return await axios.get( process.env.VUE_APP_API_URL+'/wicked/api/v1/auth',{auth: {
-            username: user,
-            password: pass
-        }})        
-    }
+   
 
 }
 
