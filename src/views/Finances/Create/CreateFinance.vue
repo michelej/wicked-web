@@ -52,7 +52,7 @@ export default {
       let save = Object.assign({}, this.form);
       save.category = this.categories.find(e => e.value == this.form.category);
       api
-        .saveNewAmountMoney(save)
+        .saveMoney(save)
         .then(() => {
           this.$swal("Exito!", "Se ha guardado!", "success");
         })
