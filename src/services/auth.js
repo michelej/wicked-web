@@ -28,6 +28,11 @@ export class AuthService {
         return user ? true : false
     }
 
+    getUserName(){
+        let token = this.getAuthToken()        
+        return token.auth.username
+    }
+
     getAuthToken() {
         let user = localStorage.getItem('wickedUSR')
         user = JSON.parse(atob(user))        

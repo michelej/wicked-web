@@ -8,6 +8,7 @@ import 'bootstrap'
 import "bootstrap/scss/bootstrap.scss";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import 'sweetalert2/dist/sweetalert2.min.css';
+import 'vue-multiselect/dist/vue-multiselect.min.css';
 
 Vue.config.productionTip = false
 

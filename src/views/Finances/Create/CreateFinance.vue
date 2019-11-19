@@ -1,12 +1,15 @@
 <template src="./CreateFinance.html"></template>
 <script>
 import Datepicker from "vuejs-datepicker";
+import Multiselect from 'vue-multiselect'
 import api from "../../../services/backend";
+import auth from "../../../services/auth";
 import { es } from "vuejs-datepicker/dist/locale";
 export default {
   name: "CreateFinance",
   components: {
-    Datepicker
+    Datepicker,
+    Multiselect
   },
   data: () => {
     return {
@@ -14,9 +17,9 @@ export default {
       form: {
         amount: "",
         description: "",
-        origin: "michel",
+        origin: auth.getUserName(),
         date: new Date(),
-        category: null,
+        categories: null,
         type: null
       },
       types: [
@@ -24,24 +27,19 @@ export default {
         { text: "Gasto", value: "expenses" },
         { text: "Ingreso", value: "income" }
       ],
-      categories: [
-        { text: "Seleccione uno", value: null, type: null },
-        { text: "Compras y Comida", value: "0", type: "expenses" },
-        { text: "Ocio", value: "1", type: "expenses" },
-        { text: "Nomina", value: "2", type: "income" },
-        { text: "Ingreso", value: "1", type: "income" }
-      ],
+      categories: [],
       show: true,
-      title: ""
+      title: ""      
     };
   },
-  mounted() {
-    this.form.type =
-      this.$route.params["type"] != undefined ? this.$route.params["type"] : "";
-    this.title = this.form.type == "expenses" ? "Gasto" : "Ingreso";
-    this.categories = this.categories.filter(
-      e => e.type == this.form.type || e.type == null
-    );
+  async mounted() {    
+    this.form.type = this.$route.params["type"] != undefined ? this.$route.params["type"] : "";
+    this.title = this.form.type == "expenses" ? "Gasto" : "Ingreso";    
+    
+    api.getMoneyCategories().then( e => {
+      this.categories = e.data      
+    })    
+
     if (!(this.form.type === "expenses" || this.form.type === "income")) {
       this.$router.push("/main/dashboard");
     }
@@ -50,7 +48,7 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
       let save = Object.assign({}, this.form);
-      save.category = this.categories.find(e => e.value == this.form.category);
+      save.amount = Number(save.amount)      
       api
         .saveMoney(save)
         .then(() => {
