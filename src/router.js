@@ -19,7 +19,7 @@ const router = new Router({
     { path: '/login', name: 'login', component: Login },
     {
       path: '/main', name: 'Navbar', component: Navbar, children: [
-        { path: '/', redirect: 'dashboard' },
+        { path: '/', redirect: 'finances/list' },
         { path: 'dashboard', name: 'Dashboard', component: Dashboard },
         { path: 'finances/save/:type', name: 'CreateFinance', component: CreateFinance, props: true },
         { path: 'finances/list', name: 'ListFinance', component: ListFinance }
@@ -29,16 +29,16 @@ const router = new Router({
   ]
 })
 
-router.beforeEach((to, from, next) => {  
-  if(to.name !=='login'){
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'login') {
     if (auth.isAuthenticated()) {
       next()
     } else {
       next({ name: 'login' })
     }
-  }else{
+  } else {
     next()
-  }  
+  }
 })
 
 export default router
