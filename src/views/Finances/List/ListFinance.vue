@@ -16,7 +16,10 @@ export default {
         },
         description: {
           label: 'Descripción',
-          tdAttr: { width: '15%' }
+          tdAttr: { width: '15%' },
+          formatter: (data) => {
+            return data
+          }
         },
         type: {
           label: 'Tipo',
@@ -29,7 +32,7 @@ export default {
           label: 'Fecha',
           tdAttr: { width: '15%' },
           formatter: (data) => {
-            return data != null ? this.formatDateTime(data) : ''
+            return data != null ? this.formatDate(data) : ''
           }
         },
         show_details: {

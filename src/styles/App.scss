@@ -18,3 +18,22 @@
     -webkit-box-shadow: 0px 5px 10px -6px rgba(0, 0, 0, 0.71);
     box-shadow: 0px 5px 10px -6px rgba(0, 0, 0, 0.71);
 }
+
+.table-finances{
+  .btn-sm, .btn-group-sm > .btn {    
+    line-height: 1px!important;  
+  } 
+  white-space: nowrap;
+  border-spacing:0 15px; 
+}
+
+@media (max-width: 501px){
+  body{
+      font-size: 13px!important;      
+  }
+  .nav-link{
+      text-align: center;
+      background-color: white;
+      color:$light-blue!important;
+  }
+}
