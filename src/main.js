@@ -15,6 +15,24 @@ Vue.config.productionTip = false
 Vue.use(VueSweetalert2)
 Vue.use(BootstrapVue)
 
+Vue.mixin({
+  methods: {
+    getVersion() {
+      return JSON.parse(unescape(process.env.PACKAGE_JSON || '%7Bversion%3A0%7D')).version
+    },
+    formatDate(date) {
+      const d = new Date(date)
+      return `${('0' + d.getDate()).slice(-2)}/${('0' + (d.getMonth() + 1)).slice(-2)}/${d.getFullYear()}`
+    },
+    formatDateTime(date) {
+      const d = new Date(date)
+      return `${('0' + d.getDate()).slice(-2)}/${('0' + (d.getMonth() + 1)).slice(-2)}/${d.getFullYear()} 
+      ${('0' + d.getHours()).slice(-2)}:${('0' + d.getMinutes()).slice(-2)}:${('0' + d.getSeconds()).slice(-2)}`
+    }
+  }
+})
+
+
 new Vue({
   router,
   render: h => h(App)

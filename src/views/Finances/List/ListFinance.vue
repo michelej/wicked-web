@@ -3,27 +3,36 @@
 import api from "../../../services/backend";
 export default {
   name: "ListFinance",
-  data: function() {
+  data: function () {
     return {
       items: [],
       fields: {
         amount: {
           label: 'Monto',
-          tdAttr: { width: '15%' }
-        },        
+          tdAttr: { width: '15%' },
+          formatter: (data) => {
+            return data + "€"
+          }
+        },
         description: {
           label: 'Descripción',
           tdAttr: { width: '15%' }
         },
         type: {
           label: 'Tipo',
-          tdAttr: { width: '15%' }
-        },  
+          tdAttr: { width: '15%' },
+          formatter: (data) => {
+            return data == 'expenses' ? 'Gastos' : 'Ingresos'
+          }
+        },
         date: {
           label: 'Fecha',
-          tdAttr: { width: '15%' }
+          tdAttr: { width: '15%' },
+          formatter: (data) => {
+            return data != null ? this.formatDateTime(data) : ''
+          }
         },
-          show_details: {
+        show_details: {
           label: '',
           tdAttr: { width: '5%' }
         },
@@ -49,8 +58,8 @@ export default {
           });
       });
     },
-    deleteRow(row){      
-        api
+    deleteRow(row) {
+      api
         .deleteMoney(row.item._id)
         .then(() => {
           this.$swal("Exito!", "Se ha guardado!", "success");

@@ -1,6 +1,7 @@
-<div class="container-fluid" style="margin: 0;padding: 0;">
+<div class="container-fluid" style="margin-top: 15px;padding: 0;">
+  <div class="top-bar fixed-top"></div>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Wicked</a>
+    <a class="navbar-brand" href="#">Temp. Name</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
       aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -26,5 +27,8 @@
   </nav>
   <div class="container-fluid mt-4 px-3" style="margin: 0;padding: 0;">
     <router-view />
+    <div class="debug-info" v-if="showDebug">
+      <b>Width: {{ window.width }}, Height: {{ window.height }}</b>
+    </div>
   </div>
 </div>

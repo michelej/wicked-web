@@ -27,7 +27,7 @@ export default {
       this.loading = true;
       if (this.userValid() && this.passValid()) {
         auth.login(this.username, this.password).then(() => {
-          this.$router.push("/main/dashboard");
+          this.$router.push("/main/");
         }).catch(error => {
           console.error(error);
           this.loading = false;

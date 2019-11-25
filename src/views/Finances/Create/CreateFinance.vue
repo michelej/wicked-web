@@ -29,16 +29,16 @@ export default {
       ],
       categories: [],
       show: true,
-      title: ""      
+      title: ""
     };
   },
-  async mounted() {    
+  async mounted() {
     this.form.type = this.$route.params["type"] != undefined ? this.$route.params["type"] : "";
-    this.title = this.form.type == "expenses" ? "Gasto" : "Ingreso";    
-    
-    api.getMoneyCategories().then( e => {
-      this.categories = e.data      
-    })    
+    this.title = this.form.type == "expenses" ? "Gasto" : "Ingreso";
+
+    api.getMoneyCategories().then(e => {
+      this.categories = e.data
+    })
 
     if (!(this.form.type === "expenses" || this.form.type === "income")) {
       this.$router.push("/main/dashboard");
@@ -48,11 +48,12 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
       let save = Object.assign({}, this.form);
-      save.amount = Number(save.amount)      
+      save.amount = Number(save.amount.replace(",", '.'))
       api
         .saveMoney(save)
         .then(() => {
           this.$swal("Exito!", "Se ha guardado!", "success");
+          this.$router.push("/main/finances/list/");
         })
         .catch(err => {
           console.error(err);
