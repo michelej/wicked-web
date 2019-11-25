@@ -1,11 +1,17 @@
 <div>
-    <h3>Listado</h3>
-    <b-table striped bordered outlined small hover responsive selectable select-mode='single' class="table-finances"
-        :items="items" :fields="fields">
-        <template slot="[show_details]" slot-scope="row">
-            <b-button size="sm" @click="deleteRow(row)" class="btn-danger btn-table-arrow">
-                <i class="fas fa-minus"></i>
-            </b-button>
+    <b-card border-variant="primary" header-bg-variant="primary" header-text-variant="white">
+        <template v-slot:header>
+            <h5 class="mb-0">Listado</h5>
         </template>
-    </b-table>
+        <b-card-text>
+            <b-table striped bordered outlined small hover responsive selectable select-mode='single'
+                class="table-finances" :items="items" :fields="fields">
+                <template slot="[show_details]" slot-scope="row">
+                    <b-button size="sm" @click="deleteRow(row)" class="btn-danger btn-table-arrow">
+                        <i class="fas fa-minus"></i>
+                    </b-button>
+                </template>
+            </b-table>
+        </b-card-text>
+    </b-card>
 </div>

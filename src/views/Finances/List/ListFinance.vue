@@ -65,7 +65,7 @@ export default {
       api
         .deleteMoney(row.item._id)
         .then(() => {
-          this.$swal("Exito!", "Se ha guardado!", "success");
+          this.$swal("Exito!", "Se eliminado con exito!", "success");
           this.search().catch(err => console.error(err))
         })
         .catch(err => {

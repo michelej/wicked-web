@@ -3,7 +3,7 @@
 <script>
 export default {
   name: "navbar",
-  data: function () {
+  data: function() {
     return {
       window: {
         width: 0,
@@ -13,20 +13,20 @@ export default {
     };
   },
   created() {
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize()
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
   },
   destroyed() {
-    window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener("resize", this.handleResize);
   },
-  logout: function () {
-    this.$router.push('/login')
-  },
-  mounted() { },
+  mounted() {},
   methods: {
     handleResize() {
-      this.window.width = window.innerWidth
-      this.window.height = window.innerHeight
+      this.window.width = window.innerWidth;
+      this.window.height = window.innerHeight;
+    },
+    logout: function() {
+      this.$router.push("/login");
     }
   }
 };

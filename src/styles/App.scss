@@ -27,6 +27,12 @@
   border-spacing:0 15px; 
 }
 
+.dropdown-menu{
+   a{
+     font-weight: bold;
+   }
+}
+
 @media (max-width: 501px){
   body{
       font-size: 13px!important;      

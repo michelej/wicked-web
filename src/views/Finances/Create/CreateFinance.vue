@@ -48,6 +48,7 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
       let save = Object.assign({}, this.form);
+      console.log(save)
       save.amount = Number(save.amount.replace(",", '.'))
       api
         .saveMoney(save)
