@@ -19,6 +19,10 @@ export class BackedService {
         return await axios.get( process.env.VUE_APP_API_URL+'/wicked/api/v1/money/categories', auth.getAuthToken())        
     }
 
+    async getAllUsers(){
+        return await axios.get( process.env.VUE_APP_API_URL+'/wicked/api/v1/users', auth.getAuthToken())        
+    }
+
    
 
 }
