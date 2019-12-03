@@ -1,11 +1,10 @@
 <div>
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
 
-        <b-card border-variant="primary" header-bg-variant="primary"
-            header-text-variant="white">
+        <b-card border-variant="primary" header-bg-variant="primary" header-text-variant="white">
             <template v-slot:header>
                 <h5 class="mb-0">Nuevo {{title}}</h5>
-              </template>
+            </template>
             <b-card-text>
                 <div class="finances-card">
                     <div class="col-12">
@@ -31,7 +30,7 @@
                             </div>
                             <div class="col-12 col-md-6 col-lg-6 col-xl-4" v-if="this.form.type =='expenses'">
                                 <b-form-group id="input-group-3" label="Categorias" label-for="input-3">
-                                    <multiselect v-model="form.categories" :multiple="true"
+                                    <multiselect v-model="form.categories" :multiple="true" :searchable="false"
                                         :options="categories"></multiselect>
                                 </b-form-group>
                             </div>
