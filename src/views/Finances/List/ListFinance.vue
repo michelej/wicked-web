@@ -1,6 +1,7 @@
 <template src="./ListFinance.html"></template>
 <script>
 import api from "../../../services/backend";
+import auth from "../../../services/auth";
 export default {
   name: "ListFinance",
   data: function () {
@@ -28,6 +29,14 @@ export default {
             return data == 'expenses' ? 'Gastos' : 'Ingresos'
           }
         },
+        categories: {
+          label: 'Categoria',
+          tdAttr: { width: '15%' },
+          formatter: (data) => {
+            console.log(data)
+            return data[0]
+          }
+        },
         date: {
           label: 'Fecha',
           tdAttr: { width: '15%' },
@@ -51,8 +60,8 @@ export default {
         api
           .searchMoneyRecords({})
           .then(resp => {
-            console.log(resp);
             this.items = resp.data;
+            this.items = this.items.filter(e => e.origin == auth.getUserName())
             resolve();
           })
           .catch(err => {
