@@ -33,8 +33,7 @@ export default {
           label: 'Categoria',
           tdAttr: { width: '15%' },
           formatter: (data) => {
-            console.log(data)
-            return data[0]
+            return data != null ? data[0] : ""
           }
         },
         date: {
