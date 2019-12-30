@@ -7,6 +7,10 @@ export class BackedService {
         return await axios.post( process.env.VUE_APP_API_URL+'/wicked/api/v1/money', doc,auth.getAuthToken())        
     }
 
+    async getMoney(id){
+        return await axios.get( process.env.VUE_APP_API_URL+'/wicked/api/v1/money/get/'+id,auth.getAuthToken())        
+    }
+
     async deleteMoney(id){
         return await axios.delete( process.env.VUE_APP_API_URL+'/wicked/api/v1/money/'+id, auth.getAuthToken())        
     }

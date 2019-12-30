@@ -1,0 +1,27 @@
+<div>
+    <b-card border-variant="primary" header-bg-variant="primary" header-text-variant="white">
+        <template v-slot:header>
+            <h5 class="mb-0">Información</h5>
+        </template>
+        <b-card-text v-if="loaded">
+
+            <template v-for="(year, i) in items">
+                <p>{{i}}</p>
+
+                <template v-for="(month, j) in year">
+                    <p>{{months[j-1]}}</p>                    
+
+                    <template v-for="(data, k) in month">
+                        <b-table striped bordered outlined small hover responsive selectable select-mode='single'
+                            class="table-finances" :items="getGroupedByCategory(data)">                      
+                        </b-table>
+                    </template>
+
+                </template>
+
+
+            </template>
+
+        </b-card-text>
+    </b-card>
+</div>

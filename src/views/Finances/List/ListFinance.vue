@@ -33,7 +33,7 @@ export default {
           label: 'Categoria',
           tdAttr: { width: '15%' },
           formatter: (data) => {
-            return data != null ? data[0] : ""
+            return data != null ? data.join(" , ") : ""
           }
         },
         date: {
@@ -80,6 +80,9 @@ export default {
           console.error(err);
           this.$swal("Error!", "Ha ocurrido un error! " + err, "error");
         });
+    },
+    editRow(row){      
+      this.$router.push("/main/finances/edit/expenses/"+row.item._id);
     }
   }
 };

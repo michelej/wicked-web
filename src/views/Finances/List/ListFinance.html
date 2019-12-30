@@ -7,6 +7,9 @@
             <b-table striped bordered outlined small hover responsive selectable select-mode='single'
                 class="table-finances" :items="items" :fields="fields">
                 <template slot="[show_details]" slot-scope="row">
+                    <b-button size="sm" @click="editRow(row)" class="btn-success btn-table-arrow">
+                        <i class="fas fa-pencil-alt"></i>
+                    </b-button>
                     <b-button size="sm" @click="deleteRow(row)" class="btn-danger btn-table-arrow">
                         <i class="fas fa-minus"></i>
                     </b-button>

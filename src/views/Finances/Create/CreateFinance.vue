@@ -1,7 +1,7 @@
 <template src="./CreateFinance.html"></template>
 <script>
 import Datepicker from "vuejs-datepicker";
-import Multiselect from 'vue-multiselect'
+import Multiselect from "vue-multiselect";
 import api from "../../../services/backend";
 import auth from "../../../services/auth";
 import { es } from "vuejs-datepicker/dist/locale";
@@ -29,27 +29,47 @@ export default {
       ],
       categories: [],
       show: true,
-      title: ""
+      title: "",
+      financeId: null
     };
   },
   async mounted() {
-    this.form.type = this.$route.params["type"] != undefined ? this.$route.params["type"] : "";
+    this.financeId = this.$route.params["id"] ? this.$route.params["id"] : null;
+    this.form.type =
+      this.$route.params["type"] != undefined ? this.$route.params["type"] : "";
     this.title = this.form.type == "expenses" ? "Gasto" : "Ingreso";
 
     api.getMoneyCategories().then(e => {
-      this.categories = e.data
-    })
+      this.categories = e.data;
+    });
 
     if (!(this.form.type === "expenses" || this.form.type === "income")) {
       this.$router.push("/main/dashboard");
+    }
+
+    if (this.financeId !== null) {
+      api
+        .getMoney(this.financeId)
+        .then(r => {                    
+          Object.assign(this.form, r.data);
+        })
+        .catch(err => {
+          console.error(err);
+          this.$swal("Error!", "Ha ocurrido un error! " + err, "error");
+        });
     }
   },
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      let save = Object.assign({}, this.form);
-      console.log(save)
-      save.amount = Number(save.amount.replace(",", '.'))
+      let save = Object.assign({}, this.form);      
+      save.amount = ""+save.amount
+      save.amount = Number(save.amount.replace(",", "."));
+      
+      if(this.financeId!=null){
+        save._id=this.financeId
+      }
+
       api
         .saveMoney(save)
         .then(() => {
