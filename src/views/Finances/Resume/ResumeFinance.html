@@ -5,17 +5,23 @@
         </template>
         <b-card-text v-if="loaded">
 
-            <template v-for="(year, i) in items">
-                <p>{{i}}</p>
-
+            <template v-for="(year, i) in items">                
                 <template v-for="(month, j) in year">
-                    <p>{{months[j-1]}}</p>                    
+                    <h4>{{i}} - {{months[j-1]}}</h4>                   
 
                     <template v-for="(data, k) in month">
+                        <p><b>Gastos</b></p>
                         <b-table striped bordered outlined small hover responsive selectable select-mode='single'
-                            class="table-finances" :items="getGroupedByCategory(data)">                      
+                            class="table-finances" :items="getExpensesGroupedByCategory(data)">                      
+                        </b-table>
+                        <p><b>Ingresos</b></p>
+                        <b-table striped bordered outlined small hover responsive selectable select-mode='single'
+                            class="table-finances" :items="getIncomes(data)">                      
                         </b-table>
                     </template>
+                    <br>
+                    <hr>
+                    <br>
 
                 </template>
 
