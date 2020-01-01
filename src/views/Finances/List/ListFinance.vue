@@ -1,12 +1,33 @@
 <template src="./ListFinance.html"></template>
 <script>
 import api from "../../../services/backend";
+import Multiselect from "vue-multiselect";
 import auth from "../../../services/auth";
 export default {
   name: "ListFinance",
+   components: {    
+    Multiselect
+  },
   data: function () {
     return {
       items: [],
+      categories:[],
+      years : ["2019","2020"],
+      months: [
+        {value:0,name:"Enero"},
+        {value:1,name:"Febrero"},
+        {value:2,name:"Marzo"},
+        {value:3,name:"Abril"},
+        {value:4,name:"Mayo"},
+        {value:5,name:"Junio"},
+        {value:6,name:"Julio"},
+        {value:7,name:"Agosto"},
+        {value:8,name:"Septiembre"},
+        {value:9,name:"Octubre"},
+        {value:10,name:"Noviembre"},
+        {value:11,name:"Diciembre"}
+      ],
+      form:{month: {},year:new Date().getFullYear(),category:""},
       fields: {
         amount: {
           label: 'Monto',
@@ -52,6 +73,9 @@ export default {
   },
   mounted() {
     this.search().catch(err => console.error(err));
+    api.getMoneyCategories().then(e => {
+      this.categories = e.data;
+    });
   },
   methods: {
     search() {
@@ -83,6 +107,12 @@ export default {
     },
     editRow(row){      
       this.$router.push("/main/finances/edit/expenses/"+row.item._id);
+    },
+    getFilteredItems(){      
+      let r = this.items
+      if(this.form.year!=="") r = r.filter(e => new Date(e.date).getFullYear() == this.form.year)
+      if(this.form.month!=="") r = r.filter(e => new Date(e.date).getMonth() == this.form.month.value)
+      return r
     }
   }
 };

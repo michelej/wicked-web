@@ -5,20 +5,45 @@
         </template>
         <b-card-text v-if="loaded">
 
-            <template v-for="(year, i) in items">                
+            <template v-for="(year, i) in items">
                 <template v-for="(month, j) in year">
-                    <h4>{{i}} - {{months[j-1]}}</h4>                   
+                    <h4>{{i}} - {{months[j-1]}}</h4>
 
                     <template v-for="(data, k) in month">
-                        <p><b>Gastos</b></p>
-                        <b-table striped bordered outlined small hover responsive selectable select-mode='single'
-                            class="table-finances" :items="getExpensesGroupedByCategory(data)">                      
-                        </b-table>
-                        <p><b>Ingresos</b></p>
-                        <b-table striped bordered outlined small hover responsive selectable select-mode='single'
-                            class="table-finances" :items="getIncomes(data)">                      
-                        </b-table>
+                        <div class="row">
+                            <div class="col-6">
+                                <b-table striped bordered outlined small hover responsive selectable
+                                    select-mode='single' class="table-finances"
+                                    :items="getExpensesGroupedByCategory(data)">
+                                    <template v-slot:thead-top="data">
+                                        <b-tr>
+                                          <b-th class="text-center" colspan="2"><b>Gastos</b></b-th>                                          
+                                        </b-tr>
+                                      </template>
+                                </b-table>
+                            </div>
+                            <div class="col-6">
+                                <b-table striped bordered outlined small hover responsive selectable
+                                    select-mode='single' class="table-finances" :items="getIncomes(data)">
+                                    <template v-slot:thead-top="data">
+                                        <b-tr>
+                                          <b-th class="text-center" colspan="2"><b>Ingresos</b></b-th>                                          
+                                        </b-tr>
+                                      </template>
+                                </b-table>
+
+                                <b-table striped bordered outlined small hover responsive selectable
+                                    select-mode='single' class="table-finances" :items="getTotals(data)">
+                                    <template v-slot:thead-top="data">
+                                        <b-tr>
+                                          <b-th class="text-center" colspan="2"><b>Totales</b></b-th>                                          
+                                        </b-tr>
+                                      </template>
+                                </b-table>
+                            </div>
+                        </div>
                     </template>
+
                     <br>
                     <hr>
                     <br>
