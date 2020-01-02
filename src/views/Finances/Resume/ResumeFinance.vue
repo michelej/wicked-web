@@ -1,6 +1,7 @@
 <template src="./ResumeFinance.html"></template>
 <script>
 import api from "../../../services/backend";
+import auth from "../../../services/auth";
 export default {
   name: "ResumeFinance",
   data: function() {
@@ -35,6 +36,7 @@ export default {
           .searchMoneyRecords({})
           .then(resp => {
             let res = resp.data;
+            res = res.filter(e => e.origin == auth.getUserName());
             let fn = (year, month, o, array) => {
               o[year][month] = {
                 [month]: array.filter(
@@ -86,9 +88,7 @@ export default {
               .amount
           ).toFixed(2)
         });
-      });
-
-      //res.push({category:"TOTAL GASTOS",amount:res.reduce((a, b) => ({amount: parseFloat(a.amount) + parseFloat(b.amount)})).amount})
+      });      
       return res;
     },
     getIncomes(array) {
