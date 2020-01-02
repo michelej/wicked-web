@@ -27,7 +27,7 @@ export default {
         {value:10,name:"Noviembre"},
         {value:11,name:"Diciembre"}
       ],
-      form:{month: {},year:new Date().getFullYear(),category:""},
+      form:{month:"",year:"",category:[]},
       fields: {
         amount: {
           label: 'Monto',
@@ -71,11 +71,13 @@ export default {
       }
     };
   },
-  mounted() {
+  mounted() {    
     this.search().catch(err => console.error(err));
     api.getMoneyCategories().then(e => {
       this.categories = e.data;
     });
+    this.form.month = this.months.find(e => e.value == new Date().getMonth())
+    this.form.year = new Date().getFullYear()
   },
   methods: {
     search() {
@@ -108,12 +110,24 @@ export default {
     editRow(row){      
       this.$router.push("/main/finances/edit/expenses/"+row.item._id);
     },
-    getFilteredItems(){      
+    getFilteredItems(){           
       let r = this.items
       if(this.form.year!=="") r = r.filter(e => new Date(e.date).getFullYear() == this.form.year)
       if(this.form.month!=="") r = r.filter(e => new Date(e.date).getMonth() == this.form.month.value)
+      if(this.form.category.length > 0) r = r.filter(e =>{ 
+        if(e.categories!=undefined){
+          let c=0
+          this.form.category.forEach( d => {
+            let f = e.categories.find(r=> d.indexOf(r) >= 0)            
+            c = f!=undefined ? c+1 : c 
+          })                              
+          return c==this.form.category.length
+        }else{
+          return false
+        }        
+      })
       return r
-    }
+    }    
   }
 };
 </script>
