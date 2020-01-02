@@ -14,11 +14,17 @@
                 </b-form-group>
             </div>
             <div class="col-12 col-md-6 col-lg-6 col-xl-3">
-                <b-form-group id="input-group-3" label="Categorias" label-for="input-3">
-                    <multiselect v-model="form.category" :multiple="true" :searchable="false"
+                <b-form-group id="input-group-3" label="Incluir Categorias" label-for="input-3">
+                    <multiselect v-model="form.categoryInclude" :multiple="true" :searchable="false"
                         :options="categories"></multiselect>
                 </b-form-group>
-            </div>            
+            </div>
+            <div class="col-12 col-md-6 col-lg-6 col-xl-3">
+                <b-form-group id="input-group-3" label="Excluir Categorias" label-for="input-3">
+                    <multiselect v-model="form.categoryExclude" :multiple="true" :searchable="false"
+                        :options="categories"></multiselect>
+                </b-form-group>
+            </div>                        
         </div>
     </div>
     <b-card border-variant="primary" header-bg-variant="primary" header-text-variant="white">
