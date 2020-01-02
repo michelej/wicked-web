@@ -143,8 +143,17 @@ export default {
             return false;
           }
         });
-      }
+      }          
       return r;
+    },
+    getFilteredTotals(){
+      let r = this.getFilteredItems()                  
+      if(r.length>1)
+        return [{total:r.reduce((a, b) => ({ amount: parseFloat(a.amount) + parseFloat(b.amount) })).amount.toFixed(2)}]
+      else if(r.length==1)
+        return [{total:r[0].amount}]
+      else
+        return []
     }
   }
 };

@@ -43,6 +43,10 @@
                     </b-button>
                 </template>
             </b-table>
+
+            <b-table striped bordered outlined small hover responsive selectable select-mode='single'
+                class="table-finances" :items="getFilteredTotals()">                
+            </b-table>
         </b-card-text>
     </b-card>
 </div>
