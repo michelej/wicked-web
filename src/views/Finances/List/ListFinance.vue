@@ -107,8 +107,8 @@ export default {
           this.$swal("Error!", "Ha ocurrido un error! " + err, "error");
         });
     },
-    editRow(row) {
-      this.$router.push("/main/finances/edit/expenses/" + row.item._id);
+    editRow(row) {      
+      this.$router.push("/main/finances/edit/"+row.item.type+"/" + row.item._id);
     },
     getFilteredItems() {
       let r = this.items;

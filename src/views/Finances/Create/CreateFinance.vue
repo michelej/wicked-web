@@ -30,11 +30,13 @@ export default {
       categories: [],
       show: true,
       title: "",
-      financeId: null
+      financeId: null,
+      action:"Nuevo"
     };
   },
   async mounted() {
     this.financeId = this.$route.params["id"] ? this.$route.params["id"] : null;
+    this.action = this.financeId == null ? "Nuevo" : "Editar"   
     this.form.type =
       this.$route.params["type"] != undefined ? this.$route.params["type"] : "";
     this.title = this.form.type == "expenses" ? "Gasto" : "Ingreso";
