@@ -31,7 +31,11 @@ export default {
       show: true,
       title: "",
       financeId: null,
-      action:"Nuevo"
+      action:"Nuevo",
+      sharedExpense:"0",
+      sharedPercentage:"",
+      sharedUser:"",
+      users:[]
     };
   },
   async mounted() {
@@ -43,6 +47,11 @@ export default {
 
     api.getMoneyCategories().then(e => {
       this.categories = e.data;
+    });
+
+    api.getAllUsers().then(e => {
+      this.users = e.data;      
+      this.users = this.users.filter( e => e.name != auth.getUserName())
     });
 
     if (!(this.form.type === "expenses" || this.form.type === "income")) {
@@ -62,8 +71,9 @@ export default {
     }
   },
   methods: {
-    onSubmit(evt) {
+    async onSubmit(evt) {
       evt.preventDefault();
+      let saveAlt = null
       let save = Object.assign({}, this.form);      
       save.amount = ""+save.amount
       save.amount = Number(save.amount.replace(",", "."));
@@ -72,16 +82,34 @@ export default {
         save._id=this.financeId
       }
 
-      api
-        .saveMoney(save)
-        .then(() => {
+      if(this.sharedExpense=="1"){
+         saveAlt = Object.assign({} , save)
+         saveAlt.origin = this.sharedUser.name
+         let per = ( save.amount * parseFloat(this.sharedPercentage) ) / 100         
+         save.amount = per
+         saveAlt.amount = per
+         delete saveAlt._id                  
+      }     
+      
+      try{
+        if(saveAlt !=null)
+          await api.saveMoney(saveAlt)
+          await api.saveMoney(save)  
+          this.$swal("Exito!", "Se ha guardado!", "success");
+          this.$router.push("/main/finances/list/");
+      } catch(error){
+          console.error(error);
+          this.$swal("Error!", "Ha ocurrido un error! " + error, "error");
+      }
+
+      /*api.saveMoney(save).then(() => {
           this.$swal("Exito!", "Se ha guardado!", "success");
           this.$router.push("/main/finances/list/");
         })
         .catch(err => {
           console.error(err);
           this.$swal("Error!", "Ha ocurrido un error! " + err, "error");
-        });
+        });*/
     },
     onReset(evt) {
       evt.preventDefault();
