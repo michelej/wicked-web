@@ -20,7 +20,8 @@ export default {
         origin: auth.getUserName(),
         date: new Date(),
         categories: null,
-        type: null
+        type: null,
+        money_source:null
       },
       types: [
         { text: "Seleccione uno", value: null },
@@ -28,6 +29,7 @@ export default {
         { text: "Ingreso", value: "income" }
       ],
       categories: [],
+      moneySources : [],
       show: true,
       title: "",
       financeId: null,
@@ -47,6 +49,10 @@ export default {
 
     api.getMoneyCategories().then(e => {
       this.categories = e.data;
+    });
+
+     api.getMoneySources().then(e => {
+      this.moneySources = e.data;
     });
 
     api.getAllUsers().then(e => {

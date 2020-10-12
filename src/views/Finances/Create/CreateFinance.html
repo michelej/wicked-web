@@ -34,6 +34,12 @@
                                         :options="categories"></multiselect>
                                 </b-form-group>
                             </div>
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-4" v-if="this.form.type =='expenses'">
+                                <b-form-group id="input-group-3" label="Origen Dinero" label-for="input-3">
+                                    <multiselect v-model="form.money_source" :multiple="false" :searchable="false"
+                                        :options="moneySources"></multiselect>
+                                </b-form-group>
+                            </div>
                             <div class="col-12"><hr></div>
                             
                             <div class="col-12 col-md-6 col-lg-6 col-xl-4" v-if="this.form.type =='expenses'">

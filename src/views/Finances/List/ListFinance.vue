@@ -64,6 +64,13 @@ export default {
             return data != null ? this.formatDate(data) : "";
           }
         },
+        money_source: {
+          label: "Origen Dinero",
+          tdAttr: { width: "15%" },
+          formatter: data => {
+            return data;
+          }
+        },
         show_details: {
           label: "",
           tdAttr: { width: "5%" }
