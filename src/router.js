@@ -5,6 +5,9 @@ import Dashboard from './views/Dashboard/Dashboard.vue'
 import CreateFinance from './views/Finances/Create/CreateFinance.vue'
 import ListFinance from './views/Finances/List/ListFinance.vue'
 import ResumeFinance from './views/Finances/Resume/ResumeFinance.vue'
+import BudgetCreate from './views/Budget/Create/BudgetCreate.vue'
+import BudgetView from './views/Budget/View/BudgetView.vue'
+import BudgetList from './views/Budget/List/BudgetList.vue'
 import Login from './views/Login/Login.vue'
 import Navbar from './views/Navbar/Navbar.vue'
 import auth from './services/auth'
@@ -25,7 +28,10 @@ const router = new Router({
         { path: 'finances/save/:type', name: 'CreateFinance', component: CreateFinance, props: true },
         { path: 'finances/edit/:type/:id', name: 'EditFinance', component: CreateFinance, props: true },
         { path: 'finances/list', name: 'ListFinance', component: ListFinance },
-        { path: 'finances/resume', name: 'ResumeFinance', component: ResumeFinance }
+        { path: 'finances/resume', name: 'ResumeFinance', component: ResumeFinance },
+        { path: 'budget/create', name: 'Budget', component: BudgetCreate },
+        { path: 'budget/list', name: 'Budget', component: BudgetList },
+        { path: 'budget/view', name: 'Budget', component: BudgetView }
       ]
     }
     /*{ path: '**', redirect: '/login' }*/
