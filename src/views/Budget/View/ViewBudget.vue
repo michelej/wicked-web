@@ -1,9 +1,9 @@
-<template src="./BudgetList.html"></template>
+<template src="./ViewBudget.html"></template>
 <script>
 //import api from "../../../services/backend";
 //import auth from "../../../services/auth";
 export default {
-  name: "BudgetList",
+  name: "ViewBudget",
   data: () => {
     return {
     };
@@ -17,5 +17,5 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "./BudgetList.scss";
+@import "./ViewBudget.scss";
 </style>
