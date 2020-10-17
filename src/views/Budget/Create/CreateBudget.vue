@@ -19,6 +19,7 @@ export default {
         description: "",
         origin: auth.getUserName(),
         month:"",
+        year:"",
         budgets:[] 
       },
       categories: [],
@@ -28,7 +29,8 @@ export default {
       budgetId: null,
       action:"Nuevo",
       users:[],
-      calendarMonths:[]
+      calendarMonths:[],
+      calendarYears:[{name:"2020",value:2020},{name:"2021",value:2021},{name:"2022",value:2022}]
     };
   },
   async mounted() {
@@ -97,9 +99,13 @@ export default {
       this.form.category = null;
       this.form.budgets = [];
       this.form.month = "";
+      this.form.year = "";
     },
     addBudget(){
-      this.form.budgets.push({categories:[],amount:0,money_source:""})
+      this.form.budgets.push({name:"",categories_included:[],categories_excluded:[],amount:0,money_source:""})
+    },
+    removeBudget(budget){
+      this.form.budgets=this.form.budgets.filter(e => budget != e)
     }
   }
 };

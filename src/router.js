@@ -31,7 +31,8 @@ const router = new Router({
         { path: 'finances/resume', name: 'ResumeFinance', component: ResumeFinance },
         { path: 'budget/create', name: 'Budget', component: CreateBudget },
         { path: 'budget/list', name: 'Budget', component: ListBudget },
-        { path: 'budget/view', name: 'Budget', component: ViewBudget }
+        { path: 'budget/view', name: 'Budget', component: ViewBudget },
+        { path: 'budget/edit/:id', name: 'EditBudget', component: CreateBudget, props: true },
       ]
     }
     /*{ path: '**', redirect: '/login' }*/

@@ -33,18 +33,18 @@ export class BackedService {
 
     getCalendarMonths(){
         return [
-            {name:"Enero",value:0},
-            {name:"Febrero",value:1},
-            {name:"Marzo",value:2},
-            {name:"Abril",value:3},
-            {name:"Mayo",value:4},
-            {name:"Junio",value:5},
-            {name:"Julio",value:6},
-            {name:"Agosto",value:7},
-            {name:"Septiembre",value:8},
-            {name:"Octubre",value:9},
-            {name:"Noviembre",value:10},
-            {name:"Diciembre",value:11}
+            {name:"Enero",value:1},
+            {name:"Febrero",value:2},
+            {name:"Marzo",value:3},
+            {name:"Abril",value:4},
+            {name:"Mayo",value:5},
+            {name:"Junio",value:6},
+            {name:"Julio",value:7},
+            {name:"Agosto",value:8},
+            {name:"Septiembre",value:9},
+            {name:"Octubre",value:10},
+            {name:"Noviembre",value:11},
+            {name:"Diciembre",value:12}
         ]
     }
 
@@ -63,8 +63,10 @@ export class BackedService {
     async searchBudgets(params){
         return await axios.post( process.env.VUE_APP_API_URL+'/wicked/api/v1/budget/list', params ,auth.getAuthToken())        
     }
-   
-
+    
+    async getMoneyLogsForBudget(params){
+        return await axios.post( process.env.VUE_APP_API_URL+'/wicked/api/v1/budget/money-logs', params ,auth.getAuthToken())        
+    }
 }
 
 export default new BackedService();

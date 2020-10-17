@@ -12,41 +12,64 @@
                     <multiselect v-model="form.month" :multiple="false" :searchable="false"
                         :options="months" label="name"></multiselect>
                 </b-form-group>
-            </div>
-            <div class="col-12 col-md-6 col-lg-6 col-xl-3">
-                <b-form-group id="input-group-3" label="Incluir Categorias" label-for="input-3">
-                    <multiselect v-model="form.categoryInclude" :multiple="true" :searchable="false"
-                        :options="categories"></multiselect>
-                </b-form-group>
-            </div>
-            <div class="col-12 col-md-6 col-lg-6 col-xl-3">
-                <b-form-group id="input-group-3" label="Excluir Categorias" label-for="input-3">
-                    <multiselect v-model="form.categoryExclude" :multiple="true" :searchable="false"
-                        :options="categories"></multiselect>
-                </b-form-group>
-            </div>                        
+            </div>                      
         </div>
     </div>
-    <b-card border-variant="primary" header-bg-variant="primary" header-text-variant="white">
+    <b-card border-variant="primary" header-bg-variant="primary" header-text-variant="white" v-if="loaded">
         <template v-slot:header>
             <h5 class="mb-0">Listado</h5>
         </template>        
-        <b-card-text>            
-            <b-table striped bordered outlined small hover responsive selectable select-mode='single'
-                class="table-finances" :items="getFilteredItems()" :fields="fields">
-                <template slot="[show_details]" slot-scope="row">
-                    <b-button size="sm" @click="editRow(row)" class="btn-success btn-table-arrow">
-                        <i class="fas fa-pencil-alt"></i>
-                    </b-button>
-                    <b-button size="sm" @click="deleteRow(row)" class="btn-danger btn-table-arrow">
-                        <i class="fas fa-minus"></i>
-                    </b-button>
-                </template>
-            </b-table>
+        <b-card-text> 
+            
+            <div v-for="item in getFilteredItems()" :key="item._id">
 
-            <b-table striped bordered outlined small hover responsive selectable select-mode='single'
-                class="table-finances" :items="getFilteredTotals()">                
-            </b-table>
+                <div class="row">
+                    <div class="col-12">
+                         <div class="description">Descripción : {{item.description}}</div>
+                         <div class="amount">Monto : {{item.amount}}€</div>
+
+                         <b-button size="md" @click="editRow(item._id)" class="btn-success btn-table-arrow">
+                            <i class="fas fa-pencil-alt"></i>
+                        </b-button>
+                        <b-button size="md" @click="deleteRow(item._id)" class="btn-danger btn-table-arrow">
+                            <i class="fas fa-minus"></i>
+                        </b-button>
+                    </div>
+                </div>                 
+                <div class="row">
+                    <div class="col-12 budget-card">
+                        <p><strong>Total</strong></p>
+
+                        <p>{{parseFloat(sumTotalMoneyLogValues(item.budgets)).toFixed(2)}} / {{item.amount}} 
+                            [{{parseFloat(item.amount-sumTotalMoneyLogValues(item.budgets)).toFixed(2)}}]</p>
+
+                        <b-progress class="mt-2" :max="parseInt(item.amount)" show-value height="2rem">
+                            <b-progress-bar :value="sumTotalMoneyLogValues(item.budgets)" variant="success"></b-progress-bar>
+                        </b-progress>                       
+                    </div> 
+                    <div class="col-12"><br></div>
+
+                    <template v-for="budget in item.budgets">
+                        <div class="col-12 budget-card">
+                            <p><strong>{{budget.name}}</strong></p>
+
+                            <p>{{parseFloat(sumMoneyLogValues(budget.moneyLogs)).toFixed(2)}} / {{budget.amount}}</p>
+    
+                            <b-progress class="mt-2" :max="parseInt(budget.amount)" show-value height="2rem">
+                                <b-progress-bar :value="sumMoneyLogValues(budget.moneyLogs)" variant="success"></b-progress-bar>
+                            </b-progress>
+                            <p class="budget-categories">
+                                <span v-if="budget.categories_included.length > 0">&nbsp;Incluido : {{budget.categories_included.join(" , ")}}&nbsp;</span> 
+                                <span v-if="budget.categories_excluded.length > 0">&nbsp;Excluido : {{budget.categories_excluded.join(" , ")}}&nbsp;</span>
+                            </p>
+    
+                             
+                        </div> 
+                        <div class="col-12"><br></div>
+
+                    </template>                                   
+                </div>
+            </div>
         </b-card-text>
     </b-card>
 </div>

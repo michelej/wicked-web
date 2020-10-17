@@ -9,23 +9,29 @@
                 <div class="finances-card">
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-3">
                                 <b-form-group id="input-group-1" label="Monto Total" label-for="input-1">
                                     <b-form-input id="input-1" v-model="form.amount" type="text" autocomplete="off"
                                         required>
                                     </b-form-input>
                                 </b-form-group>
                             </div>
-                            <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-3">
                                 <b-form-group id="input-group-2" label="Descripción" label-for="input-2">
                                     <b-form-input id="input-2" v-model="form.description" type="text" required>
                                     </b-form-input>
                                 </b-form-group>
                             </div>
-                            <div class="col-12 col-md-6 col-lg-6 col-xl-4"  >
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-3"  >
                                 <b-form-group id="input-group-3" label="Mes" label-for="input-3">
                                     <multiselect v-model="form.month" :multiple="false" :searchable="false" label="name"
                                         :options="calendarMonths"></multiselect>
+                                </b-form-group>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-3"  >
+                                <b-form-group id="input-group-3" label="Año" label-for="input-3">
+                                    <multiselect v-model="form.year" :multiple="false" :searchable="false" label="name"
+                                        :options="calendarYears"></multiselect>
                                 </b-form-group>
                             </div>
                            
@@ -38,8 +44,16 @@
                             <div class="col-12"><hr></div>
 
                             <template v-for="(budget, i) in form.budgets">
-                              
+
                                 <div class="col-12 col-md-6 col-lg-6 col-xl-2">
+                                    <b-form-group id="input-group-1" label="Nombre" label-for="input-1">
+                                        <b-form-input id="input-1" v-model="budget.name" type="text" autocomplete="off"
+                                            required>
+                                        </b-form-input>
+                                    </b-form-group>
+                                </div>
+                              
+                                <div class="col-12 col-md-6 col-lg-6 col-xl-1">
                                     <b-form-group id="input-group-1" label="Monto" label-for="input-1">
                                         <b-form-input id="input-1" v-model="budget.amount" type="text" autocomplete="off"
                                             required>
@@ -47,22 +61,29 @@
                                     </b-form-group>
                                 </div>
 
-                                <div class="col-12 col-md-6 col-lg-6 col-xl-4"  >
-                                    <b-form-group id="input-group-3" label="Categorias" label-for="input-3">
-                                        <multiselect v-model="budget.categories" :multiple="true" :searchable="false"
+                                <div class="col-12 col-md-6 col-lg-6 col-xl-3"  >
+                                    <b-form-group id="input-group-3" label="Categorias Incluidas" label-for="input-3">
+                                        <multiselect v-model="budget.categories_included" :multiple="true" :searchable="false"
                                             :options="categories"></multiselect>
                                     </b-form-group>
                                 </div>
 
-                                <div class="col-12 col-md-6 col-lg-6 col-xl-4"  >
+                                <div class="col-12 col-md-6 col-lg-6 col-xl-3"  >
+                                    <b-form-group id="input-group-3" label="Categorias Excluidas" label-for="input-3">
+                                        <multiselect v-model="budget.categories_excluded" :multiple="true" :searchable="false"
+                                            :options="categories"></multiselect>
+                                    </b-form-group>
+                                </div>
+
+                                <div class="col-12 col-md-6 col-lg-6 col-xl-2"  >
                                     <b-form-group id="input-group-3" label="Origen Dinero" label-for="input-3">
                                         <multiselect v-model="budget.money_source" :multiple="false" :searchable="false"
                                             :options="moneySources"></multiselect>
                                     </b-form-group>
                                 </div>
 
-                                <div class="col-12 col-md-6 col-lg-6 col-xl-2"  >
-                                    <b-button class="mr-3 mt-4" type="button" variant="danger" @click="removeBudget()"><strong>Eliminar</strong></b-button>
+                                <div class="col-12 col-md-6 col-lg-6 col-xl-1"  >
+                                    <b-button class="mr-3 mt-4" type="button" variant="danger" @click="removeBudget(budget)"><strong>Eliminar</strong></b-button>
                                 </div>
 
                             </template>    

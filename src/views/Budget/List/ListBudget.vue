@@ -2,7 +2,8 @@
 <script>
 import api from "../../../services/backend";
 import Multiselect from "vue-multiselect";
-import auth from "../../../services/auth";
+import backend from '../../../services/backend';
+/*import auth from "../../../services/auth";*/
 export default {
   name: "ListBudget",
   components: {
@@ -10,59 +11,12 @@ export default {
   },
   data: function() {
     return {
+      loaded:false,
       items: [],
       categories: [],
       years: ["2019", "2020"],
       months: [],
-      form: { month: "", year: "", categoryInclude: [], categoryExclude: [] },
-      fields: {
-        amount: {
-          label: "Monto",
-          tdAttr: { width: "15%" },
-          formatter: data => {
-            return data + "€";
-          }
-        },
-        description: {
-          label: "Descripción",
-          tdAttr: { width: "15%" },
-          formatter: data => {
-            return data;
-          }
-        },
-        type: {
-          label: "Tipo",
-          tdAttr: { width: "15%" },
-          formatter: data => {
-            return data == "expenses" ? "Gastos" : "Ingresos";
-          }
-        },
-        categories: {
-          label: "Categoria",
-          tdAttr: { width: "15%" },
-          formatter: data => {
-            return data != null ? data.join(" , ") : "";
-          }
-        },
-        date: {
-          label: "Fecha",
-          tdAttr: { width: "15%" },
-          formatter: data => {
-            return data != null ? this.formatDate(data) : "";
-          }
-        },
-        money_source: {
-          label: "Origen Dinero",
-          tdAttr: { width: "15%" },
-          formatter: data => {
-            return data;
-          }
-        },
-        show_details: {
-          label: "",
-          tdAttr: { width: "5%" }
-        }
-      }
+      form: { month: "", year: "" }
     };
   },
   mounted() {
@@ -71,84 +25,84 @@ export default {
     api.getMoneyCategories().then(e => {
       this.categories = e.data;
     });
-    this.form.month = this.months.find(e => e.value == new Date().getMonth());
+    this.form.month = this.months.find(e => e.value == new Date().getMonth()+1);
     this.form.year = new Date().getFullYear();
   },
   methods: {
     search() {
       return new Promise((resolve, reject) => {
-        api
-          .searchBudgets({})
-          .then(resp => {
+        api.searchBudgets({}).then( async resp => {
             this.items = resp.data;
-            this.items = this.items.filter(e => e.origin == auth.getUserName());
+            await this.gatherBudgetInformation(this.items)
+            console.log(this.items)
+            this.loaded=true
             resolve();
-          })
-          .catch(err => {
+          }).catch(err => {
             console.error(err);
             reject(err);
           });
       });
     },
-    deleteRow(row) {
-      api
-        .deleteMoney(row.item._id)
-        .then(() => {
+    deleteRow(budgetId) {
+      api.deleteBudget(budgetId).then(() => {
           this.$swal("Exito!", "Se eliminado con exito!", "success");
           this.search().catch(err => console.error(err));
-        })
-        .catch(err => {
+        }).catch(err => {
           console.error(err);
           this.$swal("Error!", "Ha ocurrido un error! " + err, "error");
         });
     },
-    editRow(row) {      
-      this.$router.push("/main/finances/edit/"+row.item.type+"/" + row.item._id);
+    async gatherBudgetInformation(items){
+      for (let i = 0; i < items.length; i++) {
+         const element = items[i];
+        
+         let month = element.month.value
+         let year = element.year.value
+         
+          for (let j = 0; j < element.budgets.length; j++) {
+            let budget = element.budgets[j]
+            let params = {
+              categories_included:budget.categories_included,
+              categories_excluded:budget.categories_excluded,
+              money_source:budget.money_source,
+              month:parseInt(month),
+              year:parseInt(year)
+            }
+            let resp = await backend.getMoneyLogsForBudget(params)
+            items[i].budgets[j].moneyLogs = resp.data
+          }        
+      }
     },
     getFilteredItems() {
       let r = this.items;
       if (this.form.year !== "")
-        r = r.filter(e => new Date(e.date).getFullYear() == this.form.year);
+        r = r.filter(e => e.year.value == parseInt(this.form.year));
       if (this.form.month !== "")
-        r = r.filter(e => new Date(e.date).getMonth() == this.form.month.value);
-      if (this.form.categoryInclude.length > 0) {
-        r = r.filter(e => {
-          if (e.categories != undefined) {
-            let c = 0;
-            this.form.categoryInclude.forEach(d => {
-              let f = e.categories.find(r => d.indexOf(r) >= 0);
-              c = f != undefined ? c + 1 : c;
-            });
-            return c == this.form.categoryInclude.length;
-          } else {
-            return false;
-          }
-        });
-      }
-      if (this.form.categoryExclude.length > 0) {
-        r = r.filter(e => {
-          if (e.categories != undefined) {
-            let c = 0;
-            this.form.categoryExclude.forEach(d => {
-              let f = e.categories.find(r => d.indexOf(r) >= 0);
-              c = f == undefined ? c + 1 : c;
-            });
-            return c == this.form.categoryExclude.length;
-          } else {
-            return false;
-          }
-        });
-      }          
+        r = r.filter(e => e.month.value == parseInt(this.form.month.value));       
       return r;
     },
-    getFilteredTotals(){
-      let r = this.getFilteredItems()                  
-      if(r.length>1)
-        return [{total:r.reduce((a, b) => ({ amount: parseFloat(a.amount) + parseFloat(b.amount) })).amount.toFixed(2)}]
-      else if(r.length==1)
-        return [{total:r[0].amount}]
-      else
-        return []
+    sumMoneyLogValues(moneyLogs){
+      if(moneyLogs!=undefined){        
+        let array = moneyLogs.map( e => {return e.amount;})
+        return array.reduce((a,b) => a + b, 0)
+      }else{
+        return 0
+      }
+    },
+    sumTotalMoneyLogValues(budgets){      
+      if(budgets!=undefined){        
+        let array = budgets.map( e => {          
+          let d = e.moneyLogs.map(d => {return parseFloat(d.amount)})
+          let val = d.reduce((a,b) => a + b, 0)
+          return val
+        })
+        return array.reduce((a,b) => a + b, 0)
+      }else{
+        return 0
+      }
+    },
+    editRow(budgetId){
+      this.$router.push("/main/budget/edit/" + budgetId);
     }
   }
 };
