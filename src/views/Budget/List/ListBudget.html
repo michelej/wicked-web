@@ -20,8 +20,19 @@
             <h5 class="mb-0">Listado</h5>
         </template>        
         <b-card-text> 
+
+            
             
             <div v-for="item in getFilteredItems()" :key="item._id">
+                <div class="row">                    
+                    <div class="col-12">
+                        <bar-chart 
+                            id="bar" :data="getChartData(item).data" :xkey="getChartData(item).xkey" :ykeys='getChartData(item).ykeys' resize="true"
+                            :labels='getChartData(item).labels'
+                            grid="true" grid-text-weight="bold">
+                        </bar-chart>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-12">

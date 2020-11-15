@@ -4,10 +4,14 @@ import api from "../../../services/backend";
 import Multiselect from "vue-multiselect";
 import backend from '../../../services/backend';
 /*import auth from "../../../services/auth";*/
+import Raphael from 'raphael/raphael'
+global.Raphael = Raphael
+import { BarChart,DonutChart } from 'vue-morris'
+
 export default {
   name: "ListBudget",
   components: {
-    Multiselect
+    Multiselect,BarChart,DonutChart
   },
   data: function() {
     return {
@@ -103,6 +107,28 @@ export default {
     },
     editRow(budgetId){
       this.$router.push("/main/budget/edit/" + budgetId);
+    },
+    getChartData(item){
+      if(this.loaded){
+        let data = item.budgets.map( e => {
+          return {
+             name : e.name,            
+             spent : parseFloat(this.sumMoneyLogValues(e.moneyLogs)).toFixed(2),
+             total : parseFloat(e.amount),
+             missing :  parseFloat(parseFloat(e.amount) - parseFloat(this.sumMoneyLogValues(e.moneyLogs))).toFixed(2)
+          }
+        })
+        return {
+            data :data,
+            xkey : 'name',
+            ykeys : [ "spent", "total", "missing" ],
+            labels : [ "Gasto", "Total", "Faltante" ]
+        }  
+      }else{
+        return{
+          data:[],xkey:'',ykeys:'',labels:''
+        }
+      }          
     }
   }
 };
