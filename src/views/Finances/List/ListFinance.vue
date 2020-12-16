@@ -12,7 +12,7 @@ export default {
     return {
       items: [],
       categories: [],
-      years: ["2019", "2020"],
+      years: ["2019", "2020" , "2021"],
       months: [
         { value: 0, name: "Enero" },
         { value: 1, name: "Febrero" },
