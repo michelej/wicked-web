@@ -18,7 +18,7 @@ export default {
       loaded:false,
       items: [],
       categories: [],
-      years: ["2019", "2020"],
+      years: ["2019", "2020","2021"],
       months: [],
       form: { month: "", year: "" }
     };
