@@ -94,7 +94,6 @@ export default {
           .then(resp => {
             this.items = resp.data;
             this.items = this.items.filter(e => e.origin == auth.getUserName());
-            console.log(this.items)
             resolve();
           })
           .catch(err => {

@@ -40,30 +40,15 @@
                                         :options="moneySources"></multiselect>
                                 </b-form-group>
                             </div>
-                            <div class="col-12"><hr></div>
-                            
                             <div class="col-12 col-md-6 col-lg-6 col-xl-4" v-if="this.form.type =='expenses'">
-                                <b-form-group label="Quieres compartir este gasto con alguien mas?">
-                                    <b-form-radio v-model="sharedExpense" name="sharedExpense" value="1">Si
-                                    </b-form-radio>
-                                    <b-form-radio v-model="sharedExpense" name="sharedExpense" value="0">No
-                                    </b-form-radio>
+                                <b-form-group id="input-group-3" label="Presupuesto" label-for="input-3">
+                                    <multiselect v-model="form.budgetId" :multiple="false" :searchable="false"
+                                        :options="getBudgetSelect()" label="value" value="key"></multiselect>
                                 </b-form-group>
                             </div>
-                            <div class="col-12 col-md-6 col-lg-6 col-xl-4" v-if="sharedExpense=='1'">
-                                <b-form-group id="input-group-4" label="% Compartido" label-for="input-4">
-                                    <b-form-input id="input-4" v-model="sharedPercentage" type="text" :disabled="sharedExpense=='0'">
-                                    </b-form-input>
-                                </b-form-group>
-                            </div>
-                            <div class="col-12 col-md-6 col-lg-6 col-xl-4" v-if="sharedExpense=='1'">
-                                <b-form-group id="input-group-3" label="Usuario" label-for="input-3">
-                                    <multiselect v-model="sharedUser" :multiple="false" :searchable="false" :disabled="sharedExpense=='0'"
-                                        :options="users" label="name"></multiselect>
-                                </b-form-group>
-
-
-                            </div>
+                            <div class="col-12"><hr></div>
+                    
+                         
                         </div>
 
                     </div>

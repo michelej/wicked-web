@@ -22,8 +22,6 @@ export default {
         year:"",
         budgets:[] 
       },
-      categories: [],
-      moneySources : [],
       show: true,
       title: "",
       budgetId: null,
@@ -96,13 +94,12 @@ export default {
     resetData() {
       this.form.amount = "";
       this.form.description = "";
-      this.form.category = null;
       this.form.budgets = [];
       this.form.month = "";
       this.form.year = "";
     },
     addBudget(){
-      this.form.budgets.push({name:"",categories_included:[],categories_excluded:[],amount:0,money_source:""})
+      this.form.budgets.push({name:"",amount:0,id:""})
     },
     removeBudget(budget){
       this.form.budgets=this.form.budgets.filter(e => budget != e)

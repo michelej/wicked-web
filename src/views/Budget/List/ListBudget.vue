@@ -38,7 +38,6 @@ export default {
         api.searchBudgets({}).then( async resp => {
             this.items = resp.data;
             await this.gatherBudgetInformation(this.items)
-            console.log(this.items)
             this.loaded=true
             resolve();
           }).catch(err => {

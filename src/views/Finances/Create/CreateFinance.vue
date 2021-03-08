@@ -21,7 +21,8 @@ export default {
         date: new Date(),
         categories: null,
         type: null,
-        money_source:null
+        money_source:null,
+        budgetId:null
       },
       types: [
         { text: "Seleccione uno", value: null },
@@ -37,7 +38,8 @@ export default {
       sharedExpense:"0",
       sharedPercentage:"",
       sharedUser:"",
-      users:[]
+      users:[],
+      localBudget:null
     };
   },
   async mounted() {
@@ -63,6 +65,8 @@ export default {
     if (!(this.form.type === "expenses" || this.form.type === "income")) {
       this.$router.push("/main/dashboard");
     }
+
+    await this.getBudget()
 
     if (this.financeId !== null) {
       api
@@ -100,7 +104,7 @@ export default {
       try{
         if(saveAlt !=null)
           await api.saveMoney(saveAlt)
-          await api.saveMoney(save)  
+          await api.saveMoney(save)
           this.$swal("Exito!", "Se ha guardado!", "success");
           this.$router.push("/main/finances/list/");
       } catch(error){
@@ -131,7 +135,39 @@ export default {
       this.form.date = new Date();
       this.form.category = null;
       this.form.type = null;
-    }
+    },
+    async getBudget(){      
+      let budget = await api.searchBudgets()
+      let month = new Date(this.form.date).getMonth()+1
+      let year = new Date(this.form.date).getFullYear()
+      let budgets = budget.data
+      let found = budgets.find( e => e.month.value == month && e.year.value == year)
+      if(found){
+        this.localBudget = found        
+      }else{
+        this.localBudget = null
+      }
+      console.log(this.localBudget)
+    },
+    getBudgetSelect(){
+      if(this.localBudget!=null){
+        return this.localBudget.budgets.map( e => {
+          return {
+            key:e.id,
+            value:e.name
+          }
+        })
+      }else{
+        return []
+      }
+    }   
+  },
+  watch:{
+      async ["form.date"](newValue,oldValue){
+        if(newValue!=oldValue){
+           await this.getBudget()
+        }
+      }
   }
 };
 </script>
